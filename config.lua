@@ -10,7 +10,7 @@ Config.PainkillerInterval = 60 -- Set the length of time painkillers last (per o
 Config.HealthDamage = 5 -- Minumum damage done to health before checking for injuries
 Config.ArmorDamage = 5 -- Minumum damage done to armor before checking for injuries
 Config.ForceInjury = 35 -- Maximum amount of damage a player can take before limb damage & effects are forced to occur
-Config.AlwaysBleedChance = 70 -- Set the chance out of 100 that if a player is hit with a weapon, that also has a random chance, it will cause bleeding
+Config.AlwaysBleedChance = 50 -- Set the chance out of 100 that if a player is hit with a weapon, that also has a random chance, it will cause bleeding
 Config.MessageTimer = 12 -- How long it will take to display limb/bleed message
 Config.AIHealTimer = 20 -- How long it will take to be healed after checking in, in seconds
 Config.BleedTickRate = 30 -- How much time, in seconds, between bleed ticks
@@ -18,64 +18,134 @@ Config.BleedMovementTick = 10 -- How many seconds is taken away from the bleed t
 Config.BleedMovementAdvance = 3 -- How much time moving while bleeding adds
 Config.BleedTickDamage = 8 -- The base damage that is multiplied by bleed level everytime a bleed tick occurs
 Config.FadeOutTimer = 2 -- How many bleed ticks occur before fadeout happens
-Config.BlackoutTimer = 10 -- How many bleed ticks occur before blacking out
+Config.BlackoutTimer = 15 -- How many bleed ticks occur before blacking out
 Config.AdvanceBleedTimer = 10 -- How many bleed ticks occur before bleed level increases
 Config.HeadInjuryTimer = 30 -- How much time, in seconds, do head injury effects chance occur
 Config.ArmInjuryTimer = 30 -- How much time, in seconds, do arm injury effects chance occur
 Config.LegInjuryTimer = 15 -- How much time, in seconds, do leg injury effects chance occur
 Config.HeadInjuryChance = 25 -- The chance, in percent, that head injury side-effects get applied
 Config.LegInjuryChance = { -- The chance, in percent, that leg injury side-effects get applied
-    Running = 50,
-    Walking = 15
+    Running = 10,
+    Walking = 5
 }
-Config.MajorArmoredBleedChance = 45 -- The chance, in percent, that a player will get a bleed effect when taking heavy damage while wearing armor
+Config.MajorArmoredBleedChance = 20 -- The chance, in percent, that a player will get a bleed effect when taking heavy damage while wearing armor
 Config.MaxInjuryChanceMulti = 3 -- How many times the HealthDamage value above can divide into damage taken before damage is forced to be applied
 Config.DamageMinorToMajor = 35 -- How much damage would have to be applied for a minor weapon to be considered a major damage event. Put this at 100 if you want to disable it
 Config.AlertShowInfo = 2 -- How many injuries a player must have before being alerted about them
 
 Config.Locations = { -- Edit the various interaction points for players or create new ones
     ["checking"] = {
-	    [1] = vector3(308.19, -595.35, 43.29),
-	    [2] = vector3(-254.54, 6331.78, 32.43), -- paleto
+		-- Pillbox Hill
+	    [1] = vector4(305.19, -595.88, 43.28, 341.27),
+		[2] = vector4(349.96, -590.67, 28.8, 253.69),
+		
+		-- Mount Zonah
+		[3] = vector4(-433.02, -327.44, 34.91, 124.21),
+		[4] = vector4(-501.0, -335.18, 42.33, 193.47),
     },
     ["duty"] = {
-        [1] = vector3(311.18, -599.25, 43.29),
-        [2] = vector3(-254.88, 6324.5, 32.58),
+		-- Pillbox Hill
+        [1] = vector3(307.544, -595.23, 43.1),
+        [2] = vector3(311.917, -593.36, 43.1),
+		[3] = vector3(350.411, -587.646, 28.7),
+		
+		-- Mount Zonah
+		[4] = vector3(-508.55, -300.7, 69.72),
+		[5] = vector3(-509.2, -300.8, 69.72),
+		[6] = vector3(-498.56, -332.49, 42.53),
+		[7] = vector3(-501.39, -330.24, 42.53),
+		[8] = vector3(-503.75, -333.06, 42.53),
+		[9] = vector3(-433.93, -325.5, 35.11),
+		[10] = vector3(-436.85, -324.45, 35.11),
+		[11] = vector3(-459.51, -292.05, 35.11),
+		[12] = vector3(-437.83, -316.33, 34.91),
+		[13] = vector3(-490.64, -336.72, 69.82),
+		[14] = vector3(-493.9, -336.41, 69.82),
     },
     ["vehicle"] = {
-        [1] = vector4(294.578, -574.761, 43.179, 35.79),
-        [2] = vector4(-234.28, 6329.16, 32.15, 222.5),
+		-- Pillbox Hill
+        [1] = vector4(331.26, -580.34, 28.8, 338.84),
+        [2] = vector4(324.12, -577.54, 28.8, 338.26),
+		
+		-- Mount Zonah
+		[3] = vector4(-431.36, -342.39, 24.23, 113.46),
+		[4] = vector4(-426.94, -354.98, 24.23, 106.12),
     },
     ["helicopter"] = {
-        [1] = vector4(351.58, -587.45, 74.16, 160.5),
-        [2] = vector4(-475.43, 5988.353, 31.716, 31.34),
+		-- Pillbox Hill
+        [1] = vector4(351.77, -588.02, 74.16, 251.34),
+		
+		-- Mount Zonah
+		[2] = vector4(-454.78, -293.94, 78.17, 25.89),
+		[3] = vector4(-505.42, -309.17, 73.17, 27.67),
     },
     ["armory"] = {
-        [1] = vector3(309.93, -602.94, 43.29),
-        [2] = vector3(-245.13, 6315.71, 32.82),
+		-- Pillbox Hill
+        [1] = vector4(309.98, -603.16, 43.28, 28.79),
+		
+		-- Mount Zonah
+		[3] = vector4(-493.48, -341.5, 42.4, 354.27),
     },
     ["roof"] = {
-        [1] = vector4(338.5, -583.85, 74.16, 245.5),
+        --[1] = vector4(338.5, -583.85, 74.16, 245.5),
     },
     ["main"] = {
-        [1] = vector3(298.74, -599.33, 43.29),
+        --[1] = vector3(298.74, -599.33, 43.29),
     },
     ["stash"] = {
-        [1] = vector3(309.78, -596.6, 43.29),
+		-- Pillbox Hill
+        [1] = vector3(341.96, -588.6, 43.58),
+		
+		-- Mount Zonah
+		[2] = vector3(-503.15, -298.33, 69.82),
     },
     ["beds"] = {
-        [1] = {coords = vector4(353.1, -584.6, 43.11, 152.08), taken = false, model = 1631638868},
-        [2] = {coords = vector4(356.79, -585.86, 43.11, 152.08), taken = false, model = 1631638868},
-        [3] = {coords = vector4(354.12, -593.12, 43.1, 336.32), taken = false, model = 2117668672},
-        [4] = {coords = vector4(350.79, -591.8, 43.1, 336.32), taken = false, model = 2117668672},
-        [5] = {coords = vector4(346.99, -590.48, 43.1, 336.32), taken = false, model = 2117668672},
-        [6] = {coords = vector4(360.32, -587.19, 43.02, 152.08), taken = false, model = -1091386327},
-        [7] = {coords = vector4(349.82, -583.33, 43.02, 152.08), taken = false, model = -1091386327},
-        [8] = {coords = vector4(326.98, -576.17, 43.02, 152.08), taken = false, model = -1091386327},
-	--- paleto
-	    [9] = {coords = vector4(-252.43, 6312.25, 32.34, 313.48), taken = false, model = 2117668672},
-        [10] = {coords = vector4(-247.04, 6317.95, 32.34, 134.64), taken = false, model = 2117668672},
-        [11] = {coords = vector4(-255.98, 6315.67, 32.34, 313.91), taken = false, model = 2117668672},
+		-- Pillbox Hill
+        [1] = {coords = vector4(313.93, -579.04, 42.84, 160.0), taken = false, model = 1631638868},
+        [2] = {coords = vector4(309.35, -577.38, 42.84, 160.0), taken = false, model = 1631638868},
+		[3] = {coords = vector4(307.72, -581.75, 42.84, 340.0), taken = false, model = 1631638868},
+		[4] = {coords = vector4(311.06, -582.96, 42.84, 340.0), taken = false, model = 1631638868},
+		[5] = {coords = vector4(314.47, -584.20, 42.84, 340.0), taken = false, model = 1631638868},
+		[6] = {coords = vector4(317.67, -585.37, 42.84, 340.0), taken = false, model = 1631638868},
+		[7] = {coords = vector4(322.62, -587.17, 42.84, 340.0), taken = false, model = 1631638868},
+		[8] = {coords = vector4(324.26, -582.80, 42.84, 160.0), taken = false, model = 1631638868},
+		[9] = {coords = vector4(319.41, -581.04, 42.84, 160.0), taken = false, model = 1631638868},
+		[10] = {coords = vector4(361.36, -581.2, 42.84, 70.0), taken = false, model = 1631638868},
+		[11] = {coords = vector4(359.54, -586.23, 42.84, 70.0), taken = false, model = 1631638868},
+		[12] = {coords = vector4(363.8, -589.12, 42.84, 70.0), taken = false, model = 1631638868},
+		[13] = {coords = vector4(364.96, -585.94, 42.84, 70.0), taken = false, model = 1631638868},
+		[14] = {coords = vector4(366.52, -581.66, 42.84, 70.0), taken = false, model = 1631638868},
+		[15] = {coords = vector4(357.55, -598.16, 42.84, 160.0), taken = false, model = -1091386327},
+		[16] = {coords = vector4(354.18, -593.0, 42.84, 70.0), taken = false, model = -1091386327},
+		[17] = {coords = vector4(354.44, -600.19, 42.84, 70.0), taken = false, model = 1631638868},
+		[18] = {coords = vector4(346.48, -590.34, 42.84, 70.0), taken = false, model = -1091386327},
+		
+		-- Mount Zonah
+		-- Floor 0
+		[20] = {coords = vector4(-454.92, -286.48, 34.47, 23.0), taken = false, model = 2117668672},
+		[21] = {coords = vector4(-451.54, -285.08, 34.47, 23.0), taken = false, model = 2117668672},
+		[22] = {coords = vector4(-448.38, -283.77, 34.47, 23.0), taken = false, model = 2117668672},
+		[23] = {coords = vector4(-455.11, -278.04, 34.47, 203.0), taken = false, model = 2117668672},
+		[24] = {coords = vector4(-459.0, -279.65, 34.47, 203.0), taken = false, model = 2117668672},
+		[25] = {coords = vector4(-462.75, -281.23, 34.47, 203.0), taken = false, model = 2117668672},
+		[26] = {coords = vector4(-466.5, -282.76, 34.47, 203.0), taken = false, model = 2117668672},
+		[27] = {coords = vector4(-469.91, -284.19, 34.47, 203.0), taken = false, model = 2117668672},
+		[28] = {coords = vector4(-466.99, -291.4, 34.47, 23.0), taken = false, model = 2117668672},
+		[29] = {coords = vector4(-463.69, -290.07, 34.47, 23.0), taken = false, model = 2117668672},
+		[30] = {coords = vector4(-460.29, -288.67, 34.47, 23.0), taken = false, model = 2117668672},
+		-- Floor 2
+		[31] = {coords = vector4(-436.81, -339.66, 69.09, 82.36), taken = false, model = 2117668672},
+		[32] = {coords = vector4(-443.35, -345.86, 69.09, -7.42), taken = false, model = 2117668672},
+		[33] = {coords = vector4(-448.0, -345.29, 69.09, -7.42), taken = false, model = 2117668672},
+		[34] = {coords = vector4(-463.27, -343.23, 69.09, -7.24), taken = false, model = 2117668672}, -- CH8
+		[35] = {coords = vector4(-460.41, -333.39, 69.09, 172.44), taken = false, model = 2117668672}, -- CH7
+		[36] = {coords = vector4(-468.23, -341.89, 69.09, 82.76), taken = false, model = 2117668672}, -- CH6
+		[37] = {coords = vector4(-470.2, -332.79, 69.09, -99.41), taken = false, model = 2117668672}, -- CH5
+		[38] = {coords = vector4(-475.62, -340.61, 69.09, 82.76), taken = false, model = 2117668672}, -- CH4
+		[39] = {coords = vector4(-477.55, -331.81, 69.09, -99.41), taken = false, model = 2117668672}, -- CH3
+		[40] = {coords = vector4(-485.55, -340.29, 69.09, -7.24), taken = false, model = 2117668672}, -- CH2
+		[41] = {coords = vector4(-482.71, -330.44, 69.09, 172.44), taken = false, model = 2117668672}, -- CH1
+		
     },
     ["jailbeds"] = {
         [1] = {coords = vector4(1761.96, 2597.74, 45.66, 270.14), taken = false, model = 2117668672},
@@ -84,7 +154,11 @@ Config.Locations = { -- Edit the various interaction points for players or creat
         [4] = {coords = vector4(1771.85, 2591.85, 45.66, 91.51), taken = false, model = 2117668672},
     },
     ["stations"] = {
-        [1] = {label = Lang:t('info.pb_hospital'), coords = vector4(304.27, -600.33, 43.28, 272.249)}
+		-- Pillbox Hill
+        [1] = {label = Lang:t('info.pb_hospital'), coords = vector4(304.27, -600.33, 43.28, 272.249)},
+		
+		-- Mount Zonah
+		[2] = {label = 'Mount Zonah Hospital', coords = vector4(-451.6, -346.37, 34.5, 165.24)}
     }
 }
 

@@ -195,7 +195,7 @@ RegisterNetEvent('hospital:server:RevivePlayer', function(playerId, isOldMan)
 	local oldMan = isOldMan or false
 	if Patient then
 		if oldMan then
-			if Player.Functions.RemoveMoney("cash", 5000, "revived-player") then
+			if Player.Functions.RemoveMoney("cash", 5000, "revived-old-player") then
 				Player.Functions.RemoveItem('firstaid', 1)
 				TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['firstaid'], "remove")
 				TriggerClientEvent('hospital:client:Revive', Patient.PlayerData.source)

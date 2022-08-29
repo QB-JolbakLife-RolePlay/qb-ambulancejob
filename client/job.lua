@@ -436,7 +436,7 @@ CreateThread(function()
     end
 
     for k, v in pairs(Config.Locations["helicopter"]) do
-        local boxZone = BoxZone:Create(vector3(vector3(v.x, v.y, v.z)), 5, 5, {
+        local boxZone = BoxZone:Create(vector3(vector3(v.x, v.y, v.z)), 10, 10, {
             name = "helicopter" .. k,
             debugPoly = false,
             heading = 70,
@@ -498,25 +498,76 @@ if Config.UseTarget then
                 distance = 1.5
             })
         end
+		local armoryPoly = {}
         for k, v in pairs(Config.Locations["armory"]) do
-            exports['qb-target']:AddBoxZone("armory" .. k, vector3(v.x, v.y, v.z), 1, 1, {
-                name = "armory" .. k,
-                debugPoly = false,
-                heading = -20,
-                minZ = v.z - 2,
-                maxZ = v.z + 2,
-            }, {
-                options = {
-                    {
-                        type = "client",
-                        event = "qb-ambulancejob:armory",
-                        icon = "fa fa-hand",
-                        label = "Open Armory",
-                        job = "ambulance"
-                    }
-                },
-                distance = 1.5
-            })
+			if v.w then
+				armoryPoly[#armoryPoly+1] = BoxZone:Create(vector3(v.x, v.y, v.z), 50, 50, {
+					heading = v.w,
+					name="armory"..k,
+					debugPoly = false,
+					minZ = v.z - 5,
+					maxZ = v.z + 5,
+				})
+				local ped
+				armoryPoly[#armoryPoly]:onPlayerInOut(function(isPointInside)
+					if isPointInside then
+						exports['qb-target']:SpawnPed({
+							model = 's_m_m_doctor_01', -- This is the ped model that is going to be spawning at the given coords
+							coords = vector4(v.x, v.y, v.z, v.w), -- This is the coords that the ped is going to spawn at, always has to be a vector4 and the w value is the heading
+							minusOne = true, -- Set this to true if your ped is hovering above thedground but you want it on the ground (OPTIONAL)
+							freeze = true, -- Set this to true if you want the ped to be frozen at the given coords (OPTIONAL)
+							invincible = true, -- Set this to true if you want the ped to not take any damage from any source (OPTIONAL)
+							blockevents = true, -- Set this to true if you don't want the ped to react the to the environment (OPTIONAL)
+							-- animDict = 'amb@medic@standing@timeofdeath@idle_a', -- This is the animation dictionairy to load the animation to play from (OPTIONAL)
+							-- anim = 'idle_c', -- This is the animation that will play chosen from the animDict, this will loop the whole time the ped is spawned (OPTIONAL)
+							-- flag = 1, -- This is the flag of the animation to play, for all the flags, check the TaskPlayAnim native here https://docs.fivem.net/natives/?_0x5AB552C6 (OPTIONAL)
+							scenario = 'CODE_HUMAN_MEDIC_TIME_OF_DEATH', -- This is the scenario that will play the whole time the ped is spawned, this cannot pair with anim and animDict (OPTIONAL)
+							spawnNow = true,
+							networked = false,
+							target = { -- This is the target options table, here you can specify all the options to display when targeting the ped (OPTIONAL)
+								useModel = false, -- This is the option for which target function to use, when this is set to true it'll use AddTargetModel and add these to al models of the given ped model, if it is false it will only add the options to this specific ped
+								options = { -- This is your options table, in this table all the options will be specified for the target to accept
+									{	-- This is the first table with options, you can make as many options inside the options table as you want
+										type = "client",
+										event = "qb-ambulancejob:armory",
+										icon = "fa fa-hand",
+										label = "Open Armory",
+										job = "ambulance"
+									}
+								},
+								distance = 2.5, -- This is the distance for you to be at for the target to turn blue, this is in GTA units and has to be a float value
+							},
+							action = function(data)
+								ped = data.currentpednumber
+							end,
+						})
+					else
+						if DoesEntityExist(ped) then
+							SetEntityAsMissionEntity(ped, true, false)
+							exports['qb-target']:RemoveSpawnedPed(ped)
+						end
+					end
+				end)
+			else
+				exports['qb-target']:AddBoxZone("armory" .. k, vector3(v.x, v.y, v.z), 1, 1, {
+					name = "armory" .. k,
+					debugPoly = false,
+					heading = -20,
+					minZ = v.z - 2,
+					maxZ = v.z + 2,
+				}, {
+					options = {
+						{
+							type = "client",
+							event = "qb-ambulancejob:armory",
+							icon = "fa fa-hand",
+							label = "Open Armory",
+							job = "ambulance"
+						}
+					},
+					distance = 1.5
+				})
+			end
         end
         for k, v in pairs(Config.Locations["roof"]) do
             exports['qb-target']:AddBoxZone("roof" .. k, vector3(v.x, v.y, v.z), 2, 2, {
